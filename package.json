@@ -1,0 +1,31 @@
+{
+  "name": "bird-node-server-app",
+  "version": "1.0.0",
+  "description": "Node.js HTTP Web server for my bird website application",
+  "keywords": [
+    "Node",
+    "HTTP",
+    "Web",
+    "Dev"
+  ],
+  "homepage": "https://github.com/astroohnuma03/Bird-Website-Node-Server#readme",
+  "bugs": {
+    "url": "https://github.com/astroohnuma03/Bird-Website-Node-Server/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/astroohnuma03/Bird-Website-Node-Server.git"
+  },
+  "license": "ISC",
+  "author": "Astro Ohnuma",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongoose": "^9.6.1",
+    "uuid": "^14.0.0"
+  }
+}
