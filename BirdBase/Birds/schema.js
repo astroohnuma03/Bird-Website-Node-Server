@@ -1,13 +1,16 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 const birdSchema = new mongoose.Schema(
   {
     _id: String,
     name: String,
     scientificName: String,
-    description: String,
+    sections: {
+      type: Map,
+      of: String
+    },
     image: String,
     family: String,
-    source: String,
+    genus: String,
     lastUpdated: Date,
     region: String,
   },
