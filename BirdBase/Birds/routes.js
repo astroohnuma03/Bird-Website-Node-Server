@@ -13,19 +13,19 @@ export default function BirdRoutes(app) {
       return res.json(birds);
     }
 
-    const wikiRestQuery = await axios.get(
+    const wiki_rest_query = await axios.get(
       `https://en.wikipedia.org/api/rest_v1/page/summary/${query}`
     )
 
-    const wikiRestData = wikiRestQuery.data
+    const wiki_rest_data = wiki_rest_query.data;
 
     // Fill out the elements of the bird schema here by extracting the data from wikiQuery
     const bird = {
       _id: uuidv4(),
-      name: wikiRestData.title,
+      name: wiki_rest_data.title,
       scientificName: "",
       sections: {},
-      image: wikiRestData.thumbnail?.source,
+      image: wiki_rest_data.thumbnail?.source,
       family: "",
       genus: "",
       region: ""
