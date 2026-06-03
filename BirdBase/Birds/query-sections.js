@@ -1,3 +1,5 @@
+import axios from "axios";
+
 // Current list of approved sections to add to each bird. Will probably update list or replace with actual
 // fuzzy match system later on.
 const allowed_sections = [
@@ -36,7 +38,13 @@ export default function query_sections(query) {
     ["Intro", 0]
   ]);
   const sections_query = await axios.get(
-    `https://en.wikipedia.org/w/api.php?action=parse&page=${query}&prop=tocdata&format=json`
+    `https://en.wikipedia.org/w/api.php?action=parse&page=${query}&prop=tocdata&format=json`,
+    {
+      headers: {
+        "User-Agent":
+          "BirdSearch/1.0 (astroohnuma@gmail.com)"
+      }
+    }
   );
   const sections_json = sections_query.data;
 
