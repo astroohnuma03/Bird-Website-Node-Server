@@ -11,8 +11,7 @@ const birdSchema = new mongoose.Schema(
     image: String,
     family: String,
     genus: String,
-    lastUpdated: Date,
-    region: String,
+    lastUpdated: Date
   },
   { collection: "birds" }
 );

@@ -20,7 +20,7 @@ const allowed_sections = [
 // Given a string representing a section, returns true if the section matches at least one section
 // in the allowed_sections list. Otherwise returns false.
 function is_section_allowed(section) {
-  const allowed = false;
+  var allowed = false;
   const len = allowed_sections.length;
 
   for (let i = 0; i < len; i++) {
@@ -46,11 +46,12 @@ export default function query_sections(query) {
       }
     }
   );
-  const sections_json = sections_query.data;
-
-  for (let i = 1; i <= sections_json.tocdata.sections.length; i++) {
-    const section_title = sections_json.tocdata.sections[i].line;
-    const section_index = sections_json.tocdata.sections[i].index;
+  
+  const sections_json = sections_query.data.parse.tocdata.sections;
+  
+  for (let i = 0; i < sections_json.length; i++) {
+    const section_title = sections_json[i].line;
+    const section_index = Number(sections_json[i].index);
 
     sections.set(section_title, section_index);
   }
@@ -65,6 +66,8 @@ export default function query_sections(query) {
   for (let i = 0; i < bad_sections.length; i++) {
     sections.delete(bad_sections[i]);
   }
+
+  console.log(sections);
 
   return sections;
 }
