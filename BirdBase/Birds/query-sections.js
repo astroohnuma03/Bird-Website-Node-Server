@@ -33,7 +33,7 @@ function is_section_allowed(section) {
 }
 
 // Function to query and retrieve a list of sections to add to a bird entry given a bird page
-export default function query_sections(query) {
+export default async function query_sections(query) {
   const sections = new Map([
     ["Intro", 0]
   ]);

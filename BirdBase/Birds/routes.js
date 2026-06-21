@@ -67,7 +67,7 @@ export default function BirdRoutes(app) {
       genus: taxonomy.genus
     };
 
-    await model.create(bird)
+    await model.create(bird);
 
     res.json([bird]);
   });

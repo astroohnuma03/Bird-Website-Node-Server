@@ -32,7 +32,7 @@ function html_cleanup(html_query) {
 // Function which given the titles and indexes of sections of a wikipedia page and the original query
 // for the wikipedia page, returns a map containing the names of each section as keys and the cleaned
 // up text of those sections as values
-export default function query_section_text(sections, query) {
+export default async function query_section_text(sections, query) {
   const section_text_map = new Map();
   
   for(const [key, value] of sections) {
