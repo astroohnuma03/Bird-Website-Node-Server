@@ -33,11 +33,11 @@ function html_cleanup(html_query) {
 // for the wikipedia page, returns a map containing the names of each section as keys and the cleaned
 // up text of those sections as values
 export default async function query_section_text(sections, query) {
-  const section_text_map = new Map();
+  const section_text_list = [];
   
-  for(const [key, value] of sections) {
+  sections.map(function(value, index, array) {
     const section_text_query = await axios.get(
-      `https://en.wikipedia.org/w/api.php?action=parse&page=${query}&prop=text&section=${value}&format=json`,
+      `https://en.wikipedia.org/w/api.php?action=parse&page=${query}&prop=text&section=${value.index}&format=json`,
       {
         headers: {
           "User-Agent":
@@ -47,9 +47,13 @@ export default async function query_section_text(sections, query) {
     );
 
     const clean_section = html_cleanup(section_text_query);
-    section_text_map.set(key, clean_section);
-  }
+    const full_section = {
+      title: value.title,
+      text: clean_section
+    };
+    section_text_list.push(full_section);
+  })
   
-  console.log(section_text_map);
-  return section_text_map;
+  console.log(section_text_list);
+  return section_text_list;
 }

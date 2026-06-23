@@ -34,9 +34,7 @@ function is_section_allowed(section) {
 
 // Function to query and retrieve a list of sections to add to a bird entry given a bird page
 export default async function query_sections(query) {
-  const sections = new Map([
-    ["Intro", 0]
-  ]);
+  const sections = [];
   const sections_query = await axios.get(
     `https://en.wikipedia.org/w/api.php?action=parse&page=${query}&prop=tocdata&format=json`,
     {
@@ -52,22 +50,31 @@ export default async function query_sections(query) {
   for (let i = 0; i < sections_json.length; i++) {
     const section_title = sections_json[i].line;
     const section_index = Number(sections_json[i].index);
-
-    sections.set(section_title, section_index);
+    const section = {
+      title: section_title,
+      index: section_index,
+    };
+    sections.push(section);
   }
 
   const bad_sections = [];
-  sections.forEach (function(value, key) {
-    if (!(is_section_allowed(key))) {
-      bad_sections.push(key);
+  sections.map(function(value, index, array) {
+    if (!(is_section_allowed(value.title))) {
+      bad_sections.push(value.title);
     }
   })
 
-  for (let i = 0; i < bad_sections.length; i++) {
-    sections.delete(bad_sections[i]);
-  }
+  const approved_sections = sections.filter(function(value, index, array) {
+    const bad = false;
+    bad_sections.map(function(value2, index2, array2) {
+      if (value.title == value2) {
+        bad = true;
+      }
+    })
+    return bad;
+  });
 
-  console.log(sections);
+  console.log(approved_sections);
 
-  return sections;
+  return approved_sections;
 }

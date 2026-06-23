@@ -4,10 +4,7 @@ const birdSchema = new mongoose.Schema(
     _id: String,
     name: String,
     scientificName: String,
-    sections: {
-      type: Map,
-      of: String
-    },
+    sections: [],
     image: String,
     family: String,
     genus: String,
