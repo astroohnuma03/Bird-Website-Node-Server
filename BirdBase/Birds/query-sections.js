@@ -8,11 +8,13 @@ const allowed_sections = [
   "Habitat",
   "Habitat and range",
   "Behavior",
+  "Behaviour",
   "Distribution",
   "Distribution and habitat",
   "Distribution and range",
   "Range",
   "Behavior and ecology",
+  "Behaviour and ecology",
   "Diet",
   "Reproduction"
 ]
@@ -54,24 +56,13 @@ export default async function query_sections(query) {
       title: section_title,
       index: section_index,
     };
-    sections.push(section);
+    if (sections_json[i].tocLevel === 1) {
+      sections.push(section);
+    }
   }
 
-  const bad_sections = [];
-  sections.map(function(value, index, array) {
-    if (!(is_section_allowed(value.title))) {
-      bad_sections.push(value.title);
-    }
-  })
-
   const approved_sections = sections.filter(function(value, index, array) {
-    const bad = false;
-    bad_sections.map(function(value2, index2, array2) {
-      if (value.title == value2) {
-        bad = true;
-      }
-    })
-    return bad;
+    return is_section_allowed(value.title);
   });
 
   console.log(approved_sections);

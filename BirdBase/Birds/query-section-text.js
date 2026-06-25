@@ -5,11 +5,15 @@ import * as cheerio from "cheerio";
 // remove unnecessary and messy elements and returns a much cleaner and more usable version
 // of the text
 function html_cleanup(html_query) {
-  const html = html_query.data.parse.text["*"];
+  const html = html_query.data.parse.text["*"].replace(/<!--[\s\S]*?-->/g, '');
   const $ = cheerio.load(html);
 
   $("table").remove();
   $("img").remove();
+  $("figcaption").remove();
+  $("h2").remove();
+  $(".gallerybox").remove();
+  $(".gallerytext").remove();
   $(".thumb").remove();
   $(".reference").remove();
   $("sup.reference").remove();
@@ -33,27 +37,27 @@ function html_cleanup(html_query) {
 // for the wikipedia page, returns a map containing the names of each section as keys and the cleaned
 // up text of those sections as values
 export default async function query_section_text(sections, query) {
-  const section_text_list = [];
-  
-  sections.map(function(value, index, array) {
-    const section_text_query = await axios.get(
-      `https://en.wikipedia.org/w/api.php?action=parse&page=${query}&prop=text&section=${value.index}&format=json`,
-      {
-        headers: {
-          "User-Agent":
-            "BirdSearch/1.0 (astroohnuma@gmail.com)"
+  const section_text_list = await Promise.all(
+    sections.map(async (value) => {
+      const response = await axios.get(
+        `https://en.wikipedia.org/w/api.php?action=parse&page=${query}&prop=text&section=${value.index}&format=json`,
+        {
+          headers: {
+            "User-Agent":
+              "BirdSearch/1.0 (astroohnuma@gmail.com)"
+          }
         }
-      }
-    );
+      );
 
-    const clean_section = html_cleanup(section_text_query);
-    const full_section = {
-      title: value.title,
-      text: clean_section
-    };
-    section_text_list.push(full_section);
-  })
-  
+      const clean_section = html_cleanup(response);
+
+      return {
+        title: value.title,
+        text: clean_section
+      };
+    })
+  );
+
   console.log(section_text_list);
   return section_text_list;
 }
